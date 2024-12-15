@@ -1,0 +1,41 @@
+{% extends "app/layout.html" %}
+{% load static %}
+
+{% block content %}
+<h1>Ваша корзина</h1>
+
+{% for message in messages %}
+<div class="alert alert-info">{{ message }}</div>
+{% endfor %}
+
+<table>
+    <tr>
+        <th>№</th>
+        <th>Изображение</th>
+        <th>Страна</th>
+        <th>Даты</th>
+        <th>Цена</th>
+        <th>Действия</th>
+    </tr>
+    {% for tour in cart %}
+    <tr>
+        <td>{{ forloop.counter }}</td>
+        <td><img src="{% static tour.image.url %}" alt="{{ tour.country }}" width="100"></td>
+        <td>{{ tour.country }}</td>
+        <td>{{ tour.start_date }} - {{ tour.end_date }}</td>
+        <td>{{ tour.price }} руб.</td>
+        <td>
+            <form method="post" action="{% url 'remove_from_cart' tour.id %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Удалить</button>
+            </form>
+        </td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="6">Корзина пуста.</td>
+    </tr>
+    {% endfor %}
+</table>
+<h3>Общая стоимость: {{ total_price }} руб.</h3>
+{% endblock %}

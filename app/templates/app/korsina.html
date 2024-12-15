@@ -1,0 +1,66 @@
+{% extends "app/layout.html" %}
+
+{% block content %}
+<h1 style="margin-bottom: 20px;">Корзина</h1>
+{% for message in messages %}
+<div class="alert alert-info">{{ message }}</div>
+{% endfor %}
+<form method="post" action="{% url 'booking' %}" style="margin-bottom: 30px;">
+    {% csrf_token %}
+    <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+        <tr>
+            <th>#</th>
+            <th>Мини картинка</th>
+            <th>Страна</th>
+            <th>Даты</th>
+            <th>Цена</th>
+            <th>Количество взрослых</th>
+            <th>Количество детей</th>
+            <th>Действия</th>
+        </tr>
+        {% for tour in cart %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td><img src="{{ tour.image.url }}" alt="{{ tour.country }}" style="width: 50px;"></td>
+            <td>{{ tour.country }}</td>
+            <td>{{ tour.start_date }} - {{ tour.end_date }}</td>
+            <td>{{ tour.price }} руб.</td>
+            <td>
+                <input type="number" name="adult_count" min="1" value="1" required>
+                <input type="hidden" name="tour_id" value="{{ tour.id }}">
+            </td>
+            <td>
+                <input type="number" name="child_count" min="0" value="0">
+            </td>
+            <td>
+                <form method="post" action="{% url 'remove_from_cart' tour.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Удалить</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    <h3>Общая стоимость: {{ total_price }} руб.</h3>
+    <button type="submit" class="btn btn-primary" style="margin-top: 20px;">Приобрести этот тур</button>
+</form>
+
+<script>
+    function updateTotal() {
+        const rows = document.querySelectorAll('table tr');
+        let total = 0;
+        rows.forEach((row, index) => {
+            if (index > 0) { // пропускаем заголовок
+                const price = parseFloat(row.cells[4].textContent.replace(' руб.', ''));
+                const adultCount = parseInt(row.querySelector('[name="adult_count"]').value) || 0;
+                const childCount = parseInt(row.querySelector('[name="child_count"]').value) || 0;
+                total += (adultCount * price) + (childCount * (price / 2));
+            }
+        });
+
+        document.querySelector('h3').textContent = "Общая стоимость: " + total + " руб.";
+    }
+
+    document.addEventListener('change', updateTotal);
+</script>
+{% endblock %}

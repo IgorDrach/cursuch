@@ -1,0 +1,105 @@
+{% extends "app/layout.html" %}
+
+{% block content %}
+
+<style>
+    .content {
+        max-width: 800px; /* Максимальная ширина контента */
+        margin: 20px auto; /* Центрируем блок с отступами */
+        padding: 20px; /* Внутренние отступы */
+        background-color: #ffffff; /* Фоновый цвет контента */
+        border-radius: 8px; /* Закругляем углы */
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Тень вокруг блока */
+    }
+
+    h2 {
+        color: #2c3e50; /* Цвет заголовка статьи */
+        border-bottom: 2px solid #008B8B; /* Подчеркивание заголовка */
+        padding-bottom: 10px;
+    }
+
+    img {
+        max-width: 100%; /* Ограничиваем ширину изображения */
+        height: auto; /* Высота автоматически подстраивается */
+        width: 250px; /* Фиксированная ширина изображения */
+        height: 150px; /* Фиксированная высота изображения */
+        border-radius: 5px; /* Закругляем углы изображения */
+        margin: 10px 0; /* Отступы вокруг изображения */
+        object-fit: cover; /* Обеспечиваем обрезку изображения по размеру */
+    }
+
+    h3 {
+        color: #2980b9; /* Цвет заголовка комментариев */
+    }
+
+    form {
+        margin-top: 20px; /* Отступ сверху у формы */
+        padding: 10px; /* Внутренние отступы у формы */
+        background-color: #f9f9f9; /* Фоновый цвет формы */
+        border: 1px solid #ddd; /* Рамка формы */
+        border-radius: 5px; /* Закругляем углы формы */
+    }
+
+    button.save {
+        background-color: #28a745; /* Цвет кнопки отправки комментария */
+        color: white; /* Цвет текста кнопки */
+        padding: 10px 15px; /* Отступы кнопки */
+        border: none; /* Убираем рамку */
+        border-radius: 5px; /* Закругляем углы кнопки */
+        cursor: pointer; /* Курсор при наведении */
+    }
+
+        button.save:hover {
+            background-color: #218838; /* Темнее на ховер */
+        }
+
+    hr {
+        border: none;
+        height: 1px;
+        background-color: #ddd; /* Цвет линии разделителя */
+        margin: 20px 0; /* Отступы между правилами */
+    }
+</style>
+
+<div class="content">
+    <h2>{{ post_1.title }}</h2>
+
+    {% if post_1.image and post_1.image.url != '/media/temp.jpg' %}
+    <img src="{{ post_1.image.url }}" alt="Картинка статьи блога" />
+    {% endif %}
+
+    <p>{{ post_1.content|linebreaksbr }}</p> {# вывод текста по абзацам#}
+
+    {% if user.is_authenticated %}
+
+    <h3>Добавить комментарий</h3>
+
+    <form method="POST">
+        {% csrf_token %} {# защита от атак CSRF#}
+        <div>
+            {{ form.as_p }}
+            <button type="submit" class="save btn btn-default">Отправить комментарий</button>
+        </div>
+    </form>
+    {% else %}
+
+    <h3>Для добавления своего комментария, пожалуйста, авторизуйтесь</h3>
+
+    {% endif %}
+    <br />
+    <hr />
+
+    {% for comment in comments %}
+    <hr />
+
+    <h7>{{ comment.date }}</h7>
+
+    <h5>{{ comment.author }}</h5>
+
+    <p>{{ comment.text|linebreaksbr }}</p>
+
+    {% endfor %}
+
+    <p><a href="{% url 'blog' %}">Назад</a></p>
+</div>
+{% endblock %}

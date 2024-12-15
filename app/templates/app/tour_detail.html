@@ -1,0 +1,72 @@
+{% extends "app/layout.html" %}
+{% load static %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Детали тура</title>
+    <style>
+        body {
+            background-color: #E4F6F1; /* Цвет фона страницы */
+            font-family: 'Nunito', sans-serif; /* Общий шрифт */
+        }
+
+        h1 {
+            font-family: 'Marck Script', cursive;
+            color: #244964;
+            font-size: 25px;
+        }
+
+        .tour-detail-container {
+            display: flex;
+            align-items: flex-start;
+            margin: 20px;
+        }
+
+        .tour-image {
+            margin-right: 20px; /* Отступ между картинкой и текстом */
+        }
+
+            .tour-image img {
+                width: 200px;
+                height: 200px;
+                object-fit: cover; /* Соответствие размеров изображения */
+            }
+
+        .tour-info p {
+            color: #244964;
+            font-size: 20px;
+            margin: 5px 0;
+        }
+
+        .tour-description {
+            margin-top: 20px;
+            text-align: justify; /* Выровненное по ширине */
+        }
+    </style>
+</head>
+<body>
+    <div class="tour-detail-container">
+        <div class="tour-image">
+            <img src="{{ tour.image.url }}" alt="Изображение тура">
+        </div>
+        <div class="tour-info">
+            <h1>{{ tour.country }}</h1>
+            <p><strong>Цена:</strong> {{ tour.price }} руб.</p>
+            <p><strong>Дата начала:</strong> {{ tour.start_date }}</p>
+            <p><strong>Дата окончания:</strong> {{ tour.end_date }}</p>
+        </div>
+    </div>
+
+    <div class="tour-description">
+        <p><strong>Описание:</strong></p>
+        <p>{{ tour.description|linebreaks }}</p>
+    </div>
+
+    <a href="{% url 'tours' %}">Назад к списку туров</a>
+</body>
+</html>
+{% endblock %}

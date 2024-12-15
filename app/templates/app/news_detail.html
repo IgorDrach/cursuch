@@ -1,0 +1,55 @@
+{% extends 'app/layout.html' %}
+
+{% block content %}
+<style>
+    body {
+        background-color: #E4F6F1;
+        margin: 0;
+        font-family: Arial, sans-serif;
+    }
+
+    .news-card {
+        background-color: white;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .news-title {
+        color: #333;
+        font-size: 24px;
+        margin-bottom: 10px;
+    }
+
+    .news-description {
+        color: #555;
+        font-size: 16px;
+        margin: 10px 0;
+        line-height: 1.5; /* Увеличение межстрочного интервала для читаемости */
+        word-wrap: break-word; /* Перенос длинных слов */
+        white-space: pre-wrap; /* Учет пробелов и переносов строк */
+    }
+
+    .news-date {
+        color: #777;
+        font-size: 14px;
+        margin-top: 10px;
+    }
+
+    .news-image {
+        width: 100%; /* Обеспечивает адаптивность на мобильных устройствах */
+        max-width: 350px; /* Максимальная ширина изображения */
+        height: auto; /* Высота автоматически подстраивается */
+        margin-bottom: 15px; /* Отступ под изображением */
+    }
+</style>
+
+<div class="news-detail">
+    <h2 class="news-title">{{ news_item.title }}</h2>
+    <img src="{{ news_item.image.url }}" alt="{{ news_item.title }}" class="news-image">
+    <p class="news-description">{{ news_item.description }}</p>
+    <p class="news-date">Дата: {{ news_item.published_date|date:"d-m-Y" }}</p>
+</div>
+{% endblock %}

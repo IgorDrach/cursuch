@@ -1,0 +1,2 @@
+pa_autoconfigure_django.py https://github.com/KseniaMin/DreamTourRelaxAllYear.git
+http://DreamTourRelaxAllYear.pythonanywhere.com

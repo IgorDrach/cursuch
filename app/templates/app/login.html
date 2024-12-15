@@ -1,0 +1,89 @@
+﻿{% extends "app/layout.html" %}
+{% load static %}
+
+{% block content %}
+
+<div class="center-container">
+    <!-- Новый контейнер для центровки -->
+    <h2>{{ title }}</h2>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <section id="loginForm">
+                <form action="." method="post" class="form-horizontal">
+                    {% csrf_token %}
+                    <h4 class="text-left">Используйте свой аккаунт чтобы войти</h4> <!-- Выравнивание текста влево -->
+                    <hr />
+                    <div class="form-group">
+                        <label for="id_username" class="control-label">Имя пользователя</label>
+                        {{ form.username }}
+                    </div>
+                    <div class="form-group">
+                        <label for="id_password" class="control-label">Пароль</label>
+                        {{ form.password }}
+                    </div>
+                    <div class="form-group">
+                        <div class="button-container">
+                            <!-- Новый контейнер для кнопки -->
+                            <input type="hidden" name="next" value="/" />
+                            <input type="submit" value="Вход" class="btn btn-default" />
+                        </div>
+                    </div>
+                    {% if form.errors %}
+                    <p class="validation-summary-errors">Упс, что-то тут не так. Пожалуйста, введите корректное имя пользователя и пароль.</p>
+                    {% endif %}
+                </form>
+            </section>
+        </div>
+        <div class="col-md-4">
+            <section id="socialLoginForm"></section>
+        </div>
+    </div>
+</div>
+
+<style>
+    body {
+        background-image: url("{% static 'app/content/fon_avt.png' %}"); /* Установка фонового изображения */
+        background-size: cover; /* Масштабирование изображения для заполнения экрана */
+        width: 100vw;
+        height: 100vh; /* Высота экрана */
+        background-position: center; /* Центрирование фонового изображения */
+        margin: 0; /* Убираем отступы */
+        font-family: 'Titillium Web', sans-serif;
+        color: #012A4A; /* Цвет текста по умолчанию для читаемости */
+        display: flex; /* Flexbox для центровки */
+        justify-content: center; /* Выравнивание по горизонтали */
+        align-items: center; /* Выравнивание по вертикали */
+    }
+
+    .center-container {
+        text-align: center; /* Центровка текста внутри контейнера */
+    }
+    
+    h2 {
+        font-family: 'Titillium Web', sans-serif;
+        color: #022b3a;
+        margin: 15px 0; /* Добавить отступы между элементами формы */
+        text-align: left; /* Выравнивание текста влево для всех элементов формы */
+    }
+    
+    .form-horizontal .form-group {
+        margin: 15px 0; /* Добавить отступы между элементами формы */
+        text-align: left; /* Выравнивание текста влево для всех элементов формы */
+    }
+
+    .button-container {
+        text-align: left; /* Выравнивание кнопки входа влево */
+    }
+
+    .validation-summary-errors {
+        font-family: 'Marck Script', cursive;
+        color: #022b3a;
+        text-align: left;
+    }
+</style>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'app/scripts/jquery.validate.min.js' %}"></script>
+{% endblock %}

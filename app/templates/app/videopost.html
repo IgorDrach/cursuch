@@ -1,0 +1,57 @@
+{% extends "app/Layout.html" %}
+{% block content %}
+
+<style>
+    body {
+        background-color: #F0F8FF; /* Светлый фон страницы */
+        color: #004d4d; /* Цвет текста */
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+    }
+
+    h1 {
+        text-align: center;
+        font-size: 2.5em;
+        margin: 60px 0 30px 0; /* Увеличение отступа сверху */
+        color: #008B8B; /* Цвет заголовка */
+    }
+
+    h2 {
+        font-size: 2em;
+        color: #007a7a; /* Цвет подзаголовков */
+        margin-top: 30px;
+        border-bottom: 2px solid #008B8B; /* Подчеркивание под заголовком */
+        padding-bottom: 10px;
+    }
+
+    video {
+        display: block;
+        margin: 0 auto; /* Центрируем видео */
+        border-radius: 8px; /* Закругляем углы видео */
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Тень вокруг видео */
+        width: 700px; /* Новая ширина видео */
+        height: 450px; /* Высота в соответствии с соотношением сторон */
+    }
+
+    hr {
+        border: none;
+        height: 1px;
+        background-color: #008B8B; /* Цвет линии разделителя */
+        margin: 40px 0; /* Отступы сверху и снизу */
+    }
+</style>
+
+<h1>{{ title }}.</h1>
+<hr />
+<div>
+    <h2>Греция о.Крит</h2>
+    <video src="/media/Video.mp4" controls="controls" width="800" height="auto" poster="/media/V1.jpg"></video>
+</div>
+<hr />
+<div>
+    <h2>Фишки Тайланда</h2>
+    <video src="/media/Video2.mp4" controls="controls" width="800" height="auto" poster="/media/V2.jpg"></video>
+</div>
+
+{% endblock %}

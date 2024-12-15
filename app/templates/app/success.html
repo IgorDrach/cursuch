@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Анкета</title>
+    <style>
+        body {
+            background-color: #e3f2fd;
+            font-size: 16px;
+            color: #022b3a;
+            padding-left: 20px;
+        }
+
+        h1 {
+            color: #022b3a;
+        }
+
+        li span {
+            color: #003554;
+        }
+    </style>
+</head>
+<body>
+    <h1>Ваша анкета была успешно отправлена!</h1>
+
+    <h2>Данные, которые Вы внесли:</h2>
+    <ul>
+        <li><span>Фамилия Имя Отчество:</span> {{ form.cleaned_data.full_name }}</li>
+        <li><span>Номер телефона:</span> {{ form.cleaned_data.phone_number }}</li>
+        <li><span>Email:</span> {{ form.cleaned_data.email }}</li>
+        <li>
+            <span>Предпочитаемый отдых:</span>
+            {% if form.cleaned_data.rest_preference == 'active' %}
+            Активный
+            {% elif form.cleaned_data.rest_preference == 'lazy' %}
+            Ленивый
+            {% else %}
+            Размеренный
+            {% endif %}
+        </li>
+        {% if form.cleaned_data.rest_preference == 'active' %}
+        <li><span>Вид активного отдыха:</span> {{ form.cleaned_data.active_rest }}</li>
+        {% endif %}
+        <li><span>Описание желаемого тура:</span> {{ form.cleaned_data.desired_tour }}</li>
+        <li><span>Количество взрослых:</span> {{ form.cleaned_data.adults }}</li>
+        <li><span>Количество детей:</span> {{ form.cleaned_data.children }}</li>
+        <li><span>Бюджет отдыха:</span> {{ form.cleaned_data.budget }}</li>
+    </ul>
+</body>
+</html>

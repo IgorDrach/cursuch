@@ -1,0 +1,138 @@
+{% extends "app/layout.html" %}
+{% load static %}
+
+{% block content %}
+<style>
+    .tour-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px; /* Отступ между карточками */
+    }
+
+    .tour-card {
+        background-color: #F0F7FC;
+        border-radius: 8px;
+        display: flex;
+        flex-direction: row;
+        width: 900px; /* Ширина карточки */
+        height: 450px; /* Высота карточки */
+        text-decoration: none; /* Убираем подчеркивание ссылок */
+        color: #244964; /* Цвет текста */
+        overflow: hidden; /* Прячем элементы, выходящие за границы карточки */
+    }
+
+    .tour-image img {
+        width: 450px; /* Ширина картинки */
+        height: 550px; /* Высота картинки */
+    }
+
+    .tour-info {
+        padding-left: 270px; /* Отступ слева от картинки */
+        display: flex;
+        flex-direction: column;
+        justify-content: center; /* Центруем содержимое по вертикали */
+    }
+
+        .tour-info h3 {
+            font-family: 'Marck Script', cursive; /* Шрифт заголовка */
+            font-size: 20px; /* Размер шрифта заголовка */
+            color: #244964; /* Цвет заголовка */
+            margin: 0; /* Убираем отступы у заголовка */
+        }
+
+        .tour-info p {
+            font-family: 'Nunito', sans-serif; /* Шрифт описания */
+            font-size: 15px; /* Размер шрифта описания */
+            margin: 5px 0; /* Отступы у абзацев */
+        }
+
+    .messages {
+        margin: 20px 0;
+    }
+
+    .alert {
+        padding: 10px;
+        border-radius: 5px;
+        margin-bottom: 10px;
+    }
+
+        .alert.error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .alert.success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+</style>
+<h1>Наши популярные пакетные Туры</h1>
+
+<div class="container">
+    {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+        <p class="alert {{ message.tags }}">{{ message }}</p>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if tours_by_category %}
+    {% for category, tours in tours_by_category.items %}
+    <h2 style="color: #073050; font-family: 'Liberation Serif'; font-size: 20px;">{{ category.name }}</h2>
+    <div class="tour-grid">
+        {% if tours %}
+        {% for tour in tours %}
+        <a href="{% url 'tour_detail' tour.id %}" class="tour-card">
+            <div class="tour-image">
+                <img src="{{ tour.image.url }}" alt="{{ tour.country }}">
+            </div>
+            <div class="tour-info">
+                <h3>{{ tour.country }}</h3>
+                <p><strong>Дней:</strong> {{ tour.days }}</p>
+                <p><strong>Даты:</strong> {{ tour.start_date }} - {{ tour.end_date }}</p>
+                <p><strong>Описание:</strong> {{ tour.description|truncatechars:100 }}</p>
+                <p><strong>Цена:</strong> {{ tour.price }} руб.</p>
+
+                <form action="{% url 'add_to_cart_redirect' tour.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary">Забронировать тур</button>
+                </form>
+            </div>
+        </a>
+        {% endfor %}
+        {% else %}
+        <p>Нет туров в этой категории.</p>
+        {% endif %}
+    </div>
+    {% endfor %}
+    {% else %}
+    <p>Туры отсутствуют.</p>
+    {% endif %}
+</div>
+
+<style>
+    .messages {
+        margin: 20px 0;
+    }
+
+    .alert {
+        padding: 10px;
+        border-radius: 5px;
+        margin-bottom: 10px;
+    }
+
+        .alert.error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .alert.success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+</style>
+
+
+
+{% endblock %}

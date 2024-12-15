@@ -1,0 +1,70 @@
+{% extends "app/layout.html" %}
+
+{% block content %}
+
+<style>
+    body {
+        background-color: #E0FFFF; /* Светло-светло бирюзовый фон */
+        color: #008B8B; /* Темно-бирюзовый текст */
+        font-family: Arial, sans-serif;
+    }
+
+    h2, h4 {
+        margin: 10px 0;
+    }
+
+    .post-card {
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        margin: 15px 0;
+        padding: 20px;
+    }
+
+        .post-card a {
+            text-decoration: none;
+            color: #008B8B; /* Темно-бирюзовый текст для ссылок */
+        }
+
+            .post-card a:hover {
+                text-decoration: underline;
+            }
+
+    .post-link {
+        font-weight: bold;
+        font-size: 1.5em;
+    }
+    .description {
+        margin: 15px 0; /* Измененный отступ */
+    }
+
+    .read-more {
+        display: inline-block;
+        margin-top: 20px; /* Увеличенный отступ сверху */
+        padding: 5px 10px;
+        background-color: #CAF0F8;
+        color: #f0f0f0; /* Смененный цвет текста на кнопке */
+        border-radius: 4px;
+        transition: background-color 0.3s;
+        text-align: center;
+        text-decoration: none;
+    }
+
+        .read-more:hover {
+            background-color: #005757;
+        }
+
+</style>
+
+<h2>{{ title }}</h2>
+<br />
+
+{% for post in posts %}
+<div class="post-card">
+    <a class="post-link" href="{% url 'blogpost' parametr=post.id %}">{{ post.title }}</a>
+    <h4>{{ post.posted }}</h4>
+    <p class="description">{{ post.description }}</p>
+    <a class="read-more" href="{% url 'blogpost' parametr=post.id %}">Читать далее</a>
+</div>
+{% endfor %}
+{% endblock %}

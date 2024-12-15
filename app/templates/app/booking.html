@@ -1,0 +1,10 @@
+{% extends "app/layout.html" %}
+
+{% block content %}
+<h1>Оформление бронирования</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Отправить форму</button>
+</form>
+{% endblock %}

@@ -1,0 +1,73 @@
+{% extends "app/layout.html" %}
+
+{% block content %}
+<style>
+    table {
+        border: 1px solid #dddddd;
+        border-radius: 5px;
+        overflow: hidden; /* Закругление углов в таблице */
+    }
+
+    th, td {
+        border: 1px solid #dddddd;
+        padding: 10px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #f2f2f2; /* Серый фон для заголовков */
+    }
+
+    tr:nth-child(even) {
+        background-color: #f9f9f9; /* Альтернативный цвет для строк */
+    }
+
+    tr:hover {
+        background-color: #f1f1f1; /* Цвет при наведении */
+    }
+</style>
+
+<h1 style="margin-bottom: 20px;">Заказы менеджера</h1>
+
+<table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+    <tr>
+        <th>#</th>
+        <th>ФИО</th>
+        <th>Номер телефона</th>
+        <th>Почта</th>
+        <th>Есть загранпаспорт</th>
+        <th>Есть виза</th>
+        <th>Тур</th>
+        <th>Количество взрослых</th>
+        <th>Количество детей</th>
+        <th>Действия</th>
+    </tr>
+    {% if bookings %}
+    {% for booking in bookings %}
+    <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ booking.full_name }}</td>
+        <td>{{ booking.phone }}</td>
+        <td>{{ booking.email }}</td>
+        <td>{{ booking.passport_exists }}</td>
+        <td>{{ booking.visa_exists }}</td>
+        <td>{{ booking.tour.country }}</td>
+        <td>{{ booking.adult_count }}</td>
+        <td>{{ booking.child_count }}</td>
+        <td>
+            <form action="{% url 'cancel_booking' booking.id %}" method="post" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" style="background: red; color: white; border: none; padding: 5px 10px; cursor: pointer;">
+                    Отменить
+                </button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+    {% else %}
+    <tr>
+        <td colspan="10" style="text-align: center;">Нет заказов.</td>
+    </tr>
+    {% endif %}
+</table>
+{% endblock %}

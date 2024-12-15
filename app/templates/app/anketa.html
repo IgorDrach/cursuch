@@ -1,0 +1,134 @@
+{% extends "app/layout.html" %}
+{% block content %}
+<br>
+<h1>Опишите свой идеальный отдых</h1>
+<br>
+
+<style>
+    body {
+        background-color: #DDECFF; /* Фон страницы в оттенке DDECFF */
+    } 
+    
+    h1 {
+        font-family: 'Marck Script', cursive; /* Шрифт заголовка */
+        font-size: 33px; /* Размер текста заголовка */
+        color: #103E3F; /* Цвет текста заголовка */
+    }
+
+    label {
+        font-family: 'Geologica', sans-serif; /* Шрифт для полей и подписей */
+        font-size: 18px; /* Размер шрифта для полей и подписей */
+    }
+
+    input[type="text"],
+    input[type="email"],
+    select,
+    textarea {
+        font-family: 'Geologica', sans-serif; /* Шрифт для полей */
+        font-size: 23px; /* Размер шрифта для полей */
+    }
+
+    textarea {
+        width: 70%; /* Ширина поля Описания тура */
+    }
+
+    #submit-button {
+        font-family: 'Geologica', sans-serif; /* Шрифт для кнопки */
+        font-size: 15px; /* Размер шрифта для кнопки */
+    }
+</style>
+
+<div>
+    <form method="post">
+        {% csrf_token %}
+        <label for="full_name">Фамилия Имя Отчество:</label>
+        <input type="text" name="full_name" required><br><br>
+
+        <label for="phone_number">Номер телефона:</label>
+        <input type="text" name="phone_number" required><br><br>
+
+        <label for="email">Почта:</label>
+        <input type="email" name="email" required><br><br>
+
+        <label for="rest_preference">Какой отдых предпочитаете:</label>
+        <select name="rest_preference" id="rest_preference" onchange="showActiveOptions(this.value)" required>
+            <option value="" disabled selected>Выберите вариант</option>
+            <option value="active">Активный</option>
+            <option value="lazy">Ленивый</option>
+            <option value="measured">Размеренный</option>
+        </select><br><br>
+
+        <div id="active_options" style="display:none;">
+            <label for="active_rest">Выберите вид активного отдыха:</label>
+            <select name="active_rest">
+                <option value="skiing">Горнолыжный</option>
+                <option value="sea">Море</option>
+                <option value="ocean">Океан</option>
+                <option value="surfing">Серфинг</option>
+                <option value="hiking">Поход</option>
+                <option value="mountain_climbing">Восхождение на гору</option>
+            </select><br><br>
+        </div>
+
+        <label for="desired_tour">Опишите желаемый тур:</label>
+        <textarea name="desired_tour" required></textarea><br><br>
+
+        <label for="adults">Сколько человек едет (взрослые):</label>
+        <select name="adults">
+            {% for i in adults_range %}
+            <option value="{{ i }}">{{ i }}</option>
+            {% endfor %}
+        </select><br><br>
+
+        <label for="children">Сколько человек едет (дети):</label>
+        <select name="children">
+            {% for i in children_range %}
+            <option value="{{ i }}">{{ i }}</option>
+            {% endfor %}
+        </select><br><br>
+
+        <label for="budget">Бюджет отдыха:</label>
+        <select name="budget" required>
+            <option value="20000-60000">20000-60000</option>
+            <option value="60000-150000">60000-150000</option>
+            <option value="150000-250000">150000-250000</option>
+            <option value="250000-500000">250000-500000</option>
+            <option value="more_than_500000">Более 500000</option>
+        </select><br><br>
+
+        <input type="submit" value="Отправить" id="submit-button">
+    </form>
+</div>
+
+
+<script>
+    function showActiveOptions(value) {
+        document.getElementById("active_options").style.display = value === 'active' ? 'block' : 'none';
+    }
+</script>
+{% endblock %}
+
+{% block scripts %}
+{{ block.super }}
+<script>
+    document.getElementById("submit-button").addEventListener("mouseover", function () {
+        this.style.backgroundColor = "#caf0f8";
+        this.style.color = "#022b3a";
+    });
+
+    document.getElementById("submit-button").addEventListener("mouseout", function () {
+        this.style.backgroundColor = "#3498db";
+        this.style.color = "#fff";
+    });
+
+    var inputFields = document.querySelectorAll('input[type="text"], input[type="email"], textarea');
+    inputFields.forEach(function (input) {
+        input.addEventListener('focus', function () {
+            this.style.backgroundColor = "#ade8f4";
+        });
+        input.addEventListener('blur', function () {
+            this.style.backgroundColor = "#fff";
+        });
+    });
+</script>
+{% endblock %}
